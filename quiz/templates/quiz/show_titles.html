@@ -1,0 +1,161 @@
+{% extends 'BASE.html' %}
+
+{% block title %} Q&A Titles {% endblock title %}
+
+{% block quiz_content %}
+
+
+    <section >
+        <div class="header">
+            <table class="table table-bordered table-fixed">
+                <thead>
+                <tr>
+                    <th style="margin-left: 250px; margin-right: 195px; margin-top: 7px; margin-bottom: 7px;"> Q&A Titles </th>                    
+                </tr>
+                </thead>
+            </table>        
+        </div>
+    
+        <div class="content" style="height: 500px;">
+            
+            {% if titles_quiz %}
+    
+            <table class="table table-dark table-hover">
+            <div class="accordion" id="accordionExample">
+                <tbody>  
+                {% for q in titles_quiz %}
+                    <tr>
+                        <td style="padding-left: 14px; padding-top: 16px; padding-bottom: 17px;">
+                            <!-- <div style="width: 470px;"> -->
+                                <div class="card">
+                                    <div class="card-header" id="headingTwo">
+                                        <h2 class="mb-0">
+                                          <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+
+                                            {% if q.quiz_title %}     
+                                                                                            
+                                                <span style="float: left; font-weight: bolder; margin-top: 6px;"> <span style="color: black;">{{ forloop.counter }}.</span> Quiz title : <span style="color: black;">{{ q.quiz_title }}</span> </span>
+                                                <a class="clipper btn btn-outline-warning btn-sm" id="clip_{{ forloop.counter }}" data-value="{{ q.quiz_title }}"  style="float: right; margin-bottom: 30px; margin-right: 10px; font-weight: bold; text-decoration: none; color: blue; border-radius: 10px; margin-top: 0px; margin-bottom: 0px;"> &nbsp; 
+                                                    <span style="color: black; font-size: large;">&maltese;</span>  
+                                                    Copy Link For Sharing &nbsp; 
+                                                </a>                                                
+
+                                                <!-- <a tabindex="0" class="btn btn-secondary popovr" role="button" data-toggle="popover" data-trigger="focus" title="Not Allowed!" data-content="You are not Authorized to do this Action. You aren't the Owner of this Poll." data-placement="top">Edit</a> -->
+
+                                                <!-- <span style="float: right;">Created On {{ q.date }} at {{ q.time }}</span>     -->                                                
+                                            {% endif %}                                                            
+
+                                        </button>
+
+                                      </h2>
+                                    </div>
+                                
+                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                      <div class="card-body" style="height: 63px; font-family: cursive; color: black;">
+
+                                        <a href="{% url 'show_quiz' q.quiz_title %}">
+                                            <i class="fas fa-align-left" id="view"  style="margin-left: 170px;"></i>
+                                            <label for="view"><strong>View</strong></label>
+                                        </a>
+
+                                        <a href="{% url 'quiz_result' q.quiz_title %}" style="color: black;">
+                                            <i class="fas fa-poll" id="results" style="margin-left: 56px;"></i>
+                                            <label for="results"><strong>Results</strong></label>
+                                        </a>
+
+                                        <i class="fas fa-edit" id="edit" style="margin-left: 56px;"></i>
+                                        <label for="edit"><strong>Edit</strong></label>
+
+                                        <a href="{% url 'delete_quiz' q.quiz_title %}">
+                                            <i class="far fa-trash-alt" id="delete" style="margin-left: 56px;"></i>
+                                            <label for="delete"><strong>Remove</strong></label>
+                                        </a>
+
+                                      </div>
+                                    </div>
+                                  </div>
+                            <!-- </div> -->
+    
+                        </td>                            
+                    </tr>
+                <!--  -->
+                </tbody>
+    
+                {% endfor %}                        
+    
+                    <!-- <p style="text-align: center; margin-top: 120px; margin-bottom: 7px;"> <strong> <i>Sorry, No Polls To Display Yet!</i> </strong> </p>
+                    <p style="text-align: center;"> <strong> <i>Ohh, Don't Worry...</i> </strong> </p>
+                    <div style="text-align: center;">
+                        <a class="btn btn-primary" href="#"> Create Your Own Poll Here! </a>
+                    </div> -->
+
+                {% else %}
+
+                    <p style="text-align: center; margin-top: 150px; margin-bottom: 7px;"> <strong> <i>Looks Like You Haven't Created Any Surveys Yet!</i> </strong> </p>
+                    <!-- <p style="text-align: center;"> <strong> <i>Ohh, Don't Worry...</i> </strong> </p> -->
+                    <div style="text-align: center;">
+                        <a class="btn btn-primary" href="{% url 'set_quiz_title' %}"> Create Your Survey Now! </a>
+                    </div>
+    
+                {% endif %}                        
+            </div>
+            </table>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+    <br><br>
+    {#% if quiz %#}
+            
+        {#% for q in quiz %#}
+            <!-- <center>
+                
+                {% if q.quiz_title %}
+                    <span>Quiz title : {{ q.quiz_title }}</span>    
+                {% endif %}                
+                <br><br><br>
+                                
+            </center>             -->
+        {#% endfor %#}                        
+            
+    {#% endif %#}    
+
+
+
+
+    <script>
+       
+            $(".clipper").click(function() {
+                cid = $(this).attr('id');
+                console.log(cid);                            
+
+                clip_id = String("#"+cid);
+                console.log(clip_id);
+
+                var cliped_title = $(clip_id).data("value");
+                console.log(cliped_title);            
+                copyURLText = "http://127.0.0.1:8080/quiz/show_quiz/" + "pAcfizz" + "{{ request.user.id }}" + "pAcfizz" + cliped_title;
+                console.log(copyURLText);                
+                //alert("CopyURLText : "+copyURLText);
+
+                //copyURLText = eval(copyURLText);
+                //copyURLText.focus();
+                copyURLText.select();
+                //copyURLText.setSelectionRange(0, 200);
+                document.execCommand("copy");
+                //r = copyURLText.createTextRange();
+                //if( !r.execCommand ) return;
+                //r.execCommand("copy");
+
+            });                        
+
+    </script>
+    
+    
+{% endblock quiz_content %}

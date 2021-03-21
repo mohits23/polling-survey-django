@@ -1,0 +1,163 @@
+{% extends 'BASE.html' %}
+
+
+{% block title %} Set-Title {% endblock title %}
+    
+
+{% block quiz_content %}
+
+    <center>
+        <br>
+
+                <!-- Dummy CREATE QUIZ FORM -->
+        <div class="container col-6 offset-2.5">
+            <div class="panel panel-default" style="box-shadow: 4px 5px 10px 1px rgb(0,0,0); border-radius: 12px; background-color: #000000; color: white;">
+                <div class="panel-heading">            
+                    <h2 class="btn btn-primary col-md-12" style="font-size: 30px; cursor: none;">                                 
+                                            
+                        ★ Create Your Q&amp;A Form here ★ <br>
+        
+                        
+                            <span style="float: left; font-size: 15px;"> Question Page: <span style="color: yellow;">1</span> </span>
+        
+                            
+                                <span style="float: right; font-size: 15px;"> Q&amp;A Form Title is : <span style="color: yellow;">Render</span> </span>
+                            
+        
+                        
+        
+                    </h2>
+                </div>
+        
+                <div class="container highlight_field" style=" margin-top: 10px;">
+                    <form action="" method="POST" id="quiz_form" enctype="multipart/form-data" style="margin-left: 50px;">
+        
+                         <input type="hidden" name="csrfmiddlewaretoken" value="tm6XqMYcChw1CT37CEYmKTRjoWPgITqpKjZTJfewjkXSBP6yi58io13qPNVcEbLi">
+        
+                        <input type="hidden" name="quiz_title" value="Render">
+        
+                        <input type="hidden" name="session_state" id="state">
+        
+                        <label for="pic" style="float: left; margin-left: 100px;"> <strong>Upload Image:</strong> </label> <br>
+                        <input type="file" name="image" id="pic" class="form-control col-8" style="border: none; background-color: #f0ad4e; color: black; margin-top: 10px;"> <br>
+        
+        
+                        <label for="ques"> <strong>Enter Question:</strong> </label>
+                        <textarea name="question" id="ques" rows="5" class="form-control col-9" style="border-radius: 9px;"></textarea> <br>  
+                        
+        
+                        <label for="opt1" aria-required="true"> <strong>Select The Response Type:</strong> </label> <br>
+                        <div class="container" id="RadioChoice" style="margin-bottom: 15px;">
+                            &nbsp;
+                            <input type="radio" name="response_type" id="opt1" checked="">
+                            <label for="opt1"> Multiple Choice Typed </label>  &nbsp;
+                            
+                            <input type="radio" name="response_type" id="opt2">                
+                            <label for="opt2"> Text Typed </label>
+                        </div>
+        
+        
+                        <div class="mcq container col-8 offset-1" id="opt1" style="border: 1px solid rgb(187, 183, 183); border-radius: 9px; margin-left: 80px;">
+                            
+                            <label for="fields_count_dropdown" style="margin-top: 35px;"> <span>Number Of Options You Want In This Question :</span> </label> 
+                            <select name="" id="fields_count_dropdown" class="form-control col-10" onchange="show_fields()">                        
+                                <option value="2"> With Two Options Only </option>
+                                <option value="3" selected=""> With Three Options Only </option>
+                                <option value="4"> With Four Options Only </option>
+                                <option value="5"> With Five Options Only </option>
+                                <option value="6"> With Six Options Only </option>
+                            </select>
+        
+                            <label for="op1" style="margin-top: 20px;" id="label1"> Option 1: </label><br>
+                            <input type="text" name="option_one" id="op1" class="form-control col-8"><br>
+        
+                            <label for="op2" id="label2"> Option 2: </label><br>
+                            <input type="text" name="option_two" id="op2" class="form-control col-8"><br>
+        
+                            <label for="op3" id="label3"> Option 3: </label><br>
+                            <input type="text" name="option_three" id="op3" class="form-control col-8"><br>
+        
+                            <label for="op4" id="label4" style="display: none;"> Option 4: </label><br>
+                            <input type="text" name="option_four" id="op4" class="form-control col-8" style="display: none;"><br>
+        
+                            <label for="op5" id="label5" style="display: none;"> Option 5: </label><br>
+                            <input type="text" name="option_five" id="op5" class="form-control col-8" style="display: none;"><br>
+        
+                            <label for="op6" id="label6" style="display: none;"> Option 6: </label><br>
+                            <input type="text" name="option_six" id="op6" class="form-control col-8" style="margin-bottom: 10px; display: none;"><br>                    
+                        </div>
+        
+                        <hr style="margin-top: 40px; margin-bottom: 7px; border-color: white; width: 600px; margin-right: 60px;">
+        
+                        <br>
+                        <div class="myButtons" style="float: right; margin-right: 250px;">
+                            <button type="button" class="btn btn-primary btn-lg btn-outline-warning" style="border-radius: 50px; color: white; border: none;" onclick="add_new()"> <span style="font-size: 18px;">+</span> <span>Add More</span> </button> &nbsp;
+                            <input type="submit" class="btn btn-success btn-lg btn-outline-warning" value=" Submit " style="border-radius: 50px; color: white; border: none;">                
+                            
+                            
+        
+                        </div>                                                                                    
+        
+                    </form>                        
+                    <br><br><br><br><br>
+        
+                </div>
+        
+            </div>
+        </div>
+
+
+
+
+
+        <!-- Modal For "Title" -->
+        <div class="modal fade" id="staticBackdrop" style="margin-top: 140px;" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">How Would You Like To Call Your Q&A Form &quest;</h5>
+                <button type="button" class="close" onclick="redirect_from_title_modal()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+
+                    <form action="" method="POST" style="margin-top: 60px; margin-bottom: 60px;">
+                        {% csrf_token %}
+                        <label for="title"> Give A Title For Your Q&A Form: </label>
+                        <input type="text" name="quiz_title" id="title" class="form-control col-9"/>
+            
+                        <br>
+                        <input type="submit" class="btn btn-primary" value="Submit Title">
+                    </form>    
+        
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="redirect_from_title_modal()" data-dismiss="modal">Close</button>                
+                </div>
+            </div>
+            </div>
+        </div>
+
+        
+        {% if request.session.quiz_title %}
+            <br><br>
+            <span>Quiz Title is : {{ request.session.quiz_title }} </span>
+        {% endif %}        
+    </center>
+
+
+    <script>
+
+        setTimeout(show_title_modal, 0);
+
+        function show_title_modal() {
+            $('#staticBackdrop').modal('show');
+        }                
+
+        function redirect_from_title_modal() {
+            window.location.href = "http://127.0.0.1:8080/home/"
+        }
+    </script>
+
+{% endblock quiz_content %}
